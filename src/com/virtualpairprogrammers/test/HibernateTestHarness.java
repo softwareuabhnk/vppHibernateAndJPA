@@ -16,16 +16,25 @@ public class HibernateTestHarness {
 	
 	public static void main(String[] args) {		
 		
-		Student testStudent = new Student("Jessica Ennis", "Toni Minichiello");
+		/*Student testStudent = new Student("Jessica Ennis", "Toni Minichiello");
 		
-		System.out.println(testStudent + " Has a grade point average of " + testStudent.calculateGradePointAverage());
-		
+		//System.out.println(testStudent + " Has a grade point average of " + testStudent.calculateGradePointAverage());
+		System.out.println("This student has an id of : " + testStudent.getId());
+		*/
 		// Save the student to the database	
 		SessionFactory sf = getSessionFactory();
 		Session session = sf.openSession();
 		
 		Transaction tx = session.beginTransaction();
-		session.save(testStudent);	
+	/*	session.save(testStudent);	*/
+		
+		Student myStudent = (Student)session.get(Student.class, 3);
+		System.out.println("This student " + myStudent + " has id of : " + myStudent.getId());
+		myStudent.setTutor("Dave Fish");
+		System.out.println("This student " + myStudent + " has id of : " + myStudent.getId());
+		
+		session.delete(myStudent);
+		
 		tx.commit();
 		session.close();
 	}

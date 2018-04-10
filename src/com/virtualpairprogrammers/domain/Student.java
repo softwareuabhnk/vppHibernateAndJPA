@@ -60,7 +60,18 @@ public class Student
 
 	@Override
 	public String toString() {
-		return "Student [name=" + name + "]";
+		return "Student [name=" + name + ", tutorName=" + tutorName + "]";
+	}
+	
+	
+	public int getId() {
+		return this.id;
+	}
+
+	public void setTutor(String tutor) {
+		// TODO Auto-generated method stub
+		this.tutorName = tutor;
+		
 	}
     
     
