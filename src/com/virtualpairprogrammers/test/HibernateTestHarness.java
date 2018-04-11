@@ -16,27 +16,37 @@ public class HibernateTestHarness {
 	
 	public static void main(String[] args) {		
 		
-		/*Student testStudent = new Student("Jessica Ennis", "Toni Minichiello");
+	
 		
 		//System.out.println(testStudent + " Has a grade point average of " + testStudent.calculateGradePointAverage());
-		System.out.println("This student has an id of : " + testStudent.getId());
-		*/
+		//System.out.println("This student has an id of : " + testStudent.getId());
 		// Save the student to the database	
 		SessionFactory sf = getSessionFactory();
 		Session session = sf.openSession();
 		
 		Transaction tx = session.beginTransaction();
-	/*	session.save(testStudent);	*/
 		
-		Student myStudent = (Student)session.get(Student.class, 3);
-		System.out.println("This student " + myStudent + " has id of : " + myStudent.getId());
-		myStudent.setTutor("Dave Fish");
-		System.out.println("This student " + myStudent + " has id of : " + myStudent.getId());
+		// Search for Student
+		//Student myStudent = (Student)session.get(Student.class, 3);
 		
-		session.delete(myStudent);
+		// Create Student
+		//Student myStudent = new Student("Jessica Ennis", "Toni Minichiello");
+		Student myStudent = new Student("Debera Fish");
+		
+		//System.out.println("This student " + myStudent + " has id of : " + myStudent.getId());
+		//myStudent.setTutor("Dave Fish");
+		
+		session.save(myStudent);	
+		//session.delete(myStudent);
+		
+		Student myStudent2 = (Student)session.get(Student.class, 3);
 		
 		tx.commit();
 		session.close();
+		
+		System.out.println("This student " + myStudent + " has a name : " + myStudent.getName());
+		System.out.println("This student " + myStudent2 + " has a name : " + myStudent.getName());
+		
 	}
 	
 public static SessionFactory getSessionFactory() {
