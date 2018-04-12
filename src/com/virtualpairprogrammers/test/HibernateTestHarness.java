@@ -8,6 +8,7 @@ import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
 
 import com.virtualpairprogrammers.domain.Student;
+import com.virtualpairprogrammers.domain.Tutor;
 
 public class HibernateTestHarness 
 {
@@ -20,13 +21,27 @@ public class HibernateTestHarness
 		Transaction tx = session.beginTransaction();
 		
 		// save the student to the database
-		Student testStudent = new Student("Jessica Ennis", "Toni Minichiello");
-		//Student testStudent = new Student("Jess Child", "Toni Minichiello");
-		System.out.println(testStudent);
-		session.save(testStudent);	
+		/*
+	    // Create a new tutor and student
+		Student myStudent = new Student("Alicia Coutts");
+		Tutor newTutor = new Tutor("DEF456", "Michael Jung", 35000);
+		System.out.println(myStudent);
+		
+		// Make the student be supervised by that tutor
+		myStudent.allocateSupervisor(newTutor);
+		System.out.println(myStudent.getSupervisorName());
+		
+		session.save(myStudent);		
+		session.save(newTutor);
+		*/
+		
+		Student foundStudent = (Student) session.get(Student.class, 1);
+		System.out.println(foundStudent);
+		
+		Tutor newSupervisor = (Tutor)session.get(Tutor.class, 2);
+		foundStudent.allocateSupervisor(null);
+				
 		tx.commit();
-		System.out.println("This student has an id of : " + testStudent.getId());
-			
 		session.close();
 	
 	}

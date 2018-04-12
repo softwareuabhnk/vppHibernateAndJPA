@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -12,6 +14,7 @@ import javax.persistence.Table;
  * system (CMS)
  */
 @Entity
+//@Table(name="TBL_STUDENT")
 public class Student
 {
 	@Id
@@ -20,7 +23,11 @@ public class Student
 	
     private String enrollmentID;
     private String name;
-    private String tutorName; // This will become a class soon
+    
+    // Relationship I used class tutor as class name
+    @ManyToOne
+    @JoinColumn(name="TUTOR_FK")
+    private Tutor supervisor;
     
     /*
      * Required by Hibernate
@@ -33,11 +40,10 @@ public class Student
     /**
      * Initialises a student with a particular tutor
      */
-    public Student(String name, String tutorName)
+    public Student(String name, Tutor supervisor)
     {
     	this.name = name;
-    	this.tutorName = tutorName;
-    	this.enrollmentID = "1-jav-222";
+    	this.supervisor = supervisor;
     }
     
     /**
@@ -46,7 +52,7 @@ public class Student
     public Student(String name)
     {
     	this.name = name;
-    	this.tutorName = null;
+    	this.supervisor = null;
     }
     
     public double calculateGradePointAverage()
@@ -58,6 +64,14 @@ public class Student
     	return 0;
     }
     
+    public void allocateSupervisor(Tutor newSupervisor) {
+    	this.supervisor = newSupervisor;
+    }
+    
+    public String getSupervisorName() {
+    	return this.supervisor.getName();
+    }
+    
     public String toString()
     {
     	return this.name;
@@ -67,4 +81,9 @@ public class Student
     {
     	return this.id;
     }
+
+	public Tutor getSupervisor() {
+		
+		return this.supervisor;
+	}
 }
