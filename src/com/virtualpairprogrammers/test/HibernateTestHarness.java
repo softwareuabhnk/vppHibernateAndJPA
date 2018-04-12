@@ -9,58 +9,41 @@ import org.hibernate.service.ServiceRegistryBuilder;
 
 import com.virtualpairprogrammers.domain.Student;
 
-public class HibernateTestHarness {
-	
+public class HibernateTestHarness 
+{
 	private static SessionFactory sessionFactory = null;
-	
-	
-	public static void main(String[] args) {		
-		
-	
-		
-		//System.out.println(testStudent + " Has a grade point average of " + testStudent.calculateGradePointAverage());
-		//System.out.println("This student has an id of : " + testStudent.getId());
-		// Save the student to the database	
+
+	public static void main(String[] args)
+	{	
 		SessionFactory sf = getSessionFactory();
 		Session session = sf.openSession();
-		
 		Transaction tx = session.beginTransaction();
 		
-		// Search for Student
-		//Student myStudent = (Student)session.get(Student.class, 3);
-		
-		// Create Student
-		//Student myStudent = new Student("Jessica Ennis", "Toni Minichiello");
-		Student myStudent = new Student("Debera Fish");
-		
-		//System.out.println("This student " + myStudent + " has id of : " + myStudent.getId());
-		//myStudent.setTutor("Dave Fish");
-		
-		session.save(myStudent);	
-		//session.delete(myStudent);
-		
-		Student myStudent2 = (Student)session.get(Student.class, 3);
-		
+		// save the student to the database
+		Student testStudent = new Student("Jessica Ennis", "Toni Minichiello");
+		//Student testStudent = new Student("Jess Child", "Toni Minichiello");
+		System.out.println(testStudent);
+		session.save(testStudent);	
 		tx.commit();
+		System.out.println("This student has an id of : " + testStudent.getId());
+			
 		session.close();
-		
-		System.out.println("This student " + myStudent + " has a name : " + myStudent.getName());
-		System.out.println("This student " + myStudent2 + " has a name : " + myStudent.getName());
-		
-	}
 	
-public static SessionFactory getSessionFactory() {
-		
-		if (sessionFactory == null) {
+	}
+
+	public static SessionFactory getSessionFactory()
+	{
+		if (sessionFactory == null)
+		{
 			Configuration configuration = new Configuration();
 			configuration.configure();
-			ServiceRegistry serviceRegistry = new ServiceRegistryBuilder()
-					.applySettings(configuration.getProperties())
-					.buildServiceRegistry();
 			
-			sessionFactory = 
-					configuration.buildSessionFactory(serviceRegistry);
+			ServiceRegistry serviceRegistry = new 
+					ServiceRegistryBuilder().applySettings(configuration.getProperties())
+					.buildServiceRegistry();        
+
+			sessionFactory = configuration.buildSessionFactory(serviceRegistry);
 		}
 		return sessionFactory;
-	}
+	}			
 }
