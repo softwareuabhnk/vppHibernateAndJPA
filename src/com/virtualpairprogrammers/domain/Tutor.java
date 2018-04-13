@@ -31,13 +31,13 @@ public class Tutor {
 	private String name;
 	private int salary;
 	
-	
-	@OneToMany
+	// Notation mappedBy means = Already mapped by property supervisor (in class Student) 
+	@OneToMany(mappedBy="supervisor")
 	//@MapKey(name="enrollmentID")
 	//@OrderBy("name")
-	@OrderColumn(name = "student_order")
-	@JoinColumn(name="TUTOR_FK")
-	private List<Student> supervisionGroup;
+	//@OrderColumn(name = "student_order")
+	//@JoinColumn(name="TUTOR_FK")
+	private Set<Student> supervisionGroup;
 	
 	//Required by Hibernate	
 	public Tutor() {
@@ -50,20 +50,32 @@ public class Tutor {
 		this.staffId = staffId;
 		this.name = name;
 		this.salary = salary;
-		this.supervisionGroup = new ArrayList<Student>();
+		this.supervisionGroup = new HashSet<Student>();
 	}
 	
 	public void addStudentToSupervisionGroup(Student studentToAdd) {
 	this.supervisionGroup.add(studentToAdd);
+	studentToAdd.allocateSupervisor(this);
 	}
 	
-	public List<Student> getSuperVisionGroup(){
-		List<Student> unmodifiable = Collections.unmodifiableList(this.supervisionGroup);
+	public Set<Student> getSuperVisionGroup(){
+		Set<Student> unmodifiable = Collections.unmodifiableSet(this.supervisionGroup);
 		return unmodifiable;
+	}
+	
+	public Set<Student> getModifiableSupervisionGroup(){
+		return this.supervisionGroup;
 	}
 	
 	public String getName() {
 		return this.name;
 	}
+
+	@Override
+	public String toString() {
+		return "Tutor [id=" + id + ", staffId=" + staffId + ", name=" + name + "]";
+	}
+	
+	
 	
 }

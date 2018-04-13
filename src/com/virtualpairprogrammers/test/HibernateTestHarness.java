@@ -25,9 +25,9 @@ public class HibernateTestHarness
 		Transaction tx = session.beginTransaction();
 		
 		// save the student to the database
-		/*
+	
 	    // Create a new tutor and student
-		Student myStudent = new Student("Alicia Coutts");
+		Student myStudent = new Student("Alicia Coutts", "5-COU-2009");
 		Tutor newTutor = new Tutor("DEF456", "Michael Jung", 35000);
 		System.out.println(myStudent);
 		
@@ -37,7 +37,6 @@ public class HibernateTestHarness
 		
 		session.save(myStudent);		
 		session.save(newTutor);
-		*/
 		
 //		Tutor newTutor = new Tutor("ABC844", "Adrian Nathan", 38000);
 //		
@@ -54,14 +53,21 @@ public class HibernateTestHarness
 //		newTutor.addStudentToSupervisionGroup(student1);
 //		newTutor.addStudentToSupervisionGroup(student2);
 //		newTutor.addStudentToSupervisionGroup(student3);
+//				
+//		System.out.println(student1.toString());
+//		System.out.println(newTutor);
 		
 		
 		Tutor myTutor = (Tutor)session.get(Tutor.class, 1);
-		List<Student> students = myTutor.getSuperVisionGroup();
+		Set<Student> students = myTutor.getSuperVisionGroup();
 		for(Student next : students) {
 			System.out.println(next);
-		}
+    	}
 		
+//		Student myStudent = (Student)session.get(Student.class, 2);
+//		Tutor myStudentTutor = myStudent.getSupervisor();
+//		System.out.println(myStudentTutor);
+//		
 		tx.commit();
 		session.close();
 	

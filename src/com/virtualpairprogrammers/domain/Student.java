@@ -25,9 +25,9 @@ public class Student
     private String name;
     
     // Relationship I used class tutor as class name
-//    @ManyToOne
-//    @JoinColumn(name="TUTOR_FK")
-//    private Tutor supervisor;
+    @ManyToOne
+    @JoinColumn(name="TUTOR_FK")
+    private Tutor supervisor;
     
     /*
      * Required by Hibernate
@@ -40,11 +40,11 @@ public class Student
     /**
      * Initialises a student with a particular tutor
      */
-//    public Student(String name, Tutor supervisor)
-//    {
-//    	this.name = name;
-//    	this.supervisor = supervisor;
-//    }
+    public Student(String name, Tutor supervisor)
+    {
+    	this.name = name;
+    	this.supervisor = supervisor;
+    }
     
     /**
      * Initialises a student with no pre set tutor
@@ -65,20 +65,24 @@ public class Student
     	return 0;
     }
     
-//    public void allocateSupervisor(Tutor newSupervisor) {
-//    	this.supervisor = newSupervisor;
-//    }
-    
-//    public String getSupervisorName() {
-//    	return this.supervisor.getName();
-//    }
-    
-    public String toString()
-    {
-    	return this.name;
+    public void allocateSupervisor(Tutor newSupervisor) {
+    	this.supervisor = newSupervisor;
+    	newSupervisor.getModifiableSupervisionGroup().add(this);
     }
     
-    public int getId()
+    public String getSupervisorName() {
+    	return this.supervisor.getName();
+    }
+    
+    
+    
+    @Override
+	public String toString() {
+		return "Student [id=" + id + ", enrollmentID=" + enrollmentID + ", name=" + name + ", supervisor=" + supervisor
+				+ "]";
+	}
+
+	public int getId()
     {
     	return this.id;
     }
@@ -87,8 +91,8 @@ public class Student
 		return this.enrollmentID;
 	}
 
-//	public Tutor getSupervisor() {
-//		
-//		return this.supervisor;
-//	}
+	public Tutor getSupervisor() {
+		
+		return this.supervisor;
+	}
 }
