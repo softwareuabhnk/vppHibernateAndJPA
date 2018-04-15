@@ -25,73 +25,29 @@ public class HibernateTestHarness
 		Session session = sf.openSession();
 		Transaction tx = session.beginTransaction();
 		
-		// save the student to the database
+		Tutor t1 = new Tutor("ABC123", "Laura Bennett", 3247474);
+		session.save(t1);
+		
+		Student s1 = new Student("Ryan Bailey", "1-BAI-2011");
+	    t1.addStudentToSupervisionGroup(s1);
+		
+		Student s2 = new Student("Luke Adams", "2-ADA-2009");
+	    t1.addStudentToSupervisionGroup(s2);
+		
+		Student s3 = new Student("Angie Bainbridge", "3-BAI-2008");
+		t1.addStudentToSupervisionGroup(s3);
+			
+		session.save(s1);
+		session.save(s2);
+		session.save(s3);	
+		
+		Set<Student> allStudents  = t1.getSuperVisionGroup();
+		
+		System.out.println(allStudents);
 	
-	    // Create a new tutor and student
-		Student myStudent = new Student("Alicia Coutts", "5-COU-2009");
-		Tutor newTutor = new Tutor("DEF456", "Michael Jung", 35000);
-		System.out.println(myStudent);
-		
-		// Make the student be supervised by that tutor
-		myStudent.allocateSupervisor(newTutor);
-		System.out.println(myStudent.getSupervisorName());
-		
-		session.save(myStudent);		
-		session.save(newTutor);
-		
-		//test out creating a couple fo subjects
-		
-		Subject subject1 = new Subject("Math", 3);
-		Subject subject2 = new Subject("Science", 6);
-		
-	    session.save(subject1);
-	    session.save(subject2);
-		
-	    //newTutor.addSubjectToQualifications(subject1);
-	    //newTutor.addSubjectToQualifications(subject2);
-	    subject1.addTutorToSubject(newTutor);
-	    subject2.addTutorToSubject(newTutor);
-	    
-	    Tutor secondTutor = new Tutor("GHJ3838", "Ben Ainslie", 3883833);
-	    secondTutor.addSubjectToQualifications(subject2);
-	    subject2.addTutorToSubject(secondTutor);
-	    
-	    session.save(secondTutor);
-	    
-	
-//		Tutor newTutor = new Tutor("ABC844", "Adrian Nathan", 38000);
-//		
-//		Student student1 = new Student("Rebecca Soni", "1-SON-2012");
-//		Student student2 = new Student("Zou Kai", "2-KAI-2009");
-//		Student student3 = new Student("Chris Hoy", "3-HOY-1997");
-//		
-//		session.save(student1);
-//		session.save(student2);
-//		session.save(student3);
-//		
-//		session.save(newTutor);
-//		
-//		newTutor.addStudentToSupervisionGroup(student1);
-//		newTutor.addStudentToSupervisionGroup(student2);
-//		newTutor.addStudentToSupervisionGroup(student3);
-//				
-//		System.out.println(student1.toString());
-//		System.out.println(newTutor);
-		
-		
-//		Tutor myTutor = (Tutor)session.get(Tutor.class, 1);
-//		Set<Student> students = myTutor.getSuperVisionGroup();
-//		for(Student next : students) {
-//			System.out.println(next);
-//    	}
-		
-//		Student myStudent = (Student)session.get(Student.class, 2);
-//		Tutor myStudentTutor = myStudent.getSupervisor();
-//		System.out.println(myStudentTutor);
-//		
 		tx.commit();
 		session.close();
-	
+		
 	}
 
 	public static SessionFactory getSessionFactory()

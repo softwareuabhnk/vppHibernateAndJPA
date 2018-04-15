@@ -91,6 +91,31 @@ public class Tutor {
 	public String toString() {
 		return "Tutor [id=" + id + ", staffId=" + staffId + ", name=" + name + "]";
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((staffId == null) ? 0 : staffId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Tutor other = (Tutor) obj;
+		if (staffId == null) {
+			if (other.staffId != null)
+				return false;
+		} else if (!staffId.equals(other.staffId))
+			return false;
+		return true;
+	}
 	
 	
 	
