@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
@@ -39,6 +40,10 @@ public class Tutor {
 	//@JoinColumn(name="TUTOR_FK")
 	private Set<Student> supervisionGroup;
 	
+	@ManyToMany(mappedBy="qualifiedTutors")
+	public Set<Subject> subjectsQualifiedToTeach;
+	
+	
 	//Required by Hibernate	
 	public Tutor() {
 
@@ -51,11 +56,22 @@ public class Tutor {
 		this.name = name;
 		this.salary = salary;
 		this.supervisionGroup = new HashSet<Student>();
+		this.subjectsQualifiedToTeach = new HashSet<Subject>();
+	}
+	
+	
+	public void addSubjectToQualifications(Subject subject) {
+		this.subjectsQualifiedToTeach.add(subject);
+		subject.getQualifiedTutors().add(this);
 	}
 	
 	public void addStudentToSupervisionGroup(Student studentToAdd) {
 	this.supervisionGroup.add(studentToAdd);
 	studentToAdd.allocateSupervisor(this);
+	}
+	
+	public Set<Subject> getSubjects(){
+		return this.subjectsQualifiedToTeach;
 	}
 	
 	public Set<Student> getSuperVisionGroup(){

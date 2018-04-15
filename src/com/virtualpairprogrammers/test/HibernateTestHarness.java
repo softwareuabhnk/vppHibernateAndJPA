@@ -12,6 +12,7 @@ import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
 
 import com.virtualpairprogrammers.domain.Student;
+import com.virtualpairprogrammers.domain.Subject;
 import com.virtualpairprogrammers.domain.Tutor;
 
 public class HibernateTestHarness 
@@ -38,6 +39,26 @@ public class HibernateTestHarness
 		session.save(myStudent);		
 		session.save(newTutor);
 		
+		//test out creating a couple fo subjects
+		
+		Subject subject1 = new Subject("Math", 3);
+		Subject subject2 = new Subject("Science", 6);
+		
+	    session.save(subject1);
+	    session.save(subject2);
+		
+	    //newTutor.addSubjectToQualifications(subject1);
+	    //newTutor.addSubjectToQualifications(subject2);
+	    subject1.addTutorToSubject(newTutor);
+	    subject2.addTutorToSubject(newTutor);
+	    
+	    Tutor secondTutor = new Tutor("GHJ3838", "Ben Ainslie", 3883833);
+	    secondTutor.addSubjectToQualifications(subject2);
+	    subject2.addTutorToSubject(secondTutor);
+	    
+	    session.save(secondTutor);
+	    
+	
 //		Tutor newTutor = new Tutor("ABC844", "Adrian Nathan", 38000);
 //		
 //		Student student1 = new Student("Rebecca Soni", "1-SON-2012");
@@ -58,11 +79,11 @@ public class HibernateTestHarness
 //		System.out.println(newTutor);
 		
 		
-		Tutor myTutor = (Tutor)session.get(Tutor.class, 1);
-		Set<Student> students = myTutor.getSuperVisionGroup();
-		for(Student next : students) {
-			System.out.println(next);
-    	}
+//		Tutor myTutor = (Tutor)session.get(Tutor.class, 1);
+//		Set<Student> students = myTutor.getSuperVisionGroup();
+//		for(Student next : students) {
+//			System.out.println(next);
+//    	}
 		
 //		Student myStudent = (Student)session.get(Student.class, 2);
 //		Tutor myStudentTutor = myStudent.getSupervisor();

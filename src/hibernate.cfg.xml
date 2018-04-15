@@ -19,10 +19,13 @@
         <property name="show_sql">false</property>
         <property name="format_sql">true</property>
         <property name="use_sql_comments">true</property>
-        <property name="hbm2ddl.auto">update</property>
+        
+         <!-- create destroys previous scheme instead of update -->
+        <property name="hbm2ddl.auto">create</property>
 
    		<mapping class="com.virtualpairprogrammers.domain.Student"/>
    		<mapping class="com.virtualpairprogrammers.domain.Tutor"/>
+   		<mapping class="com.virtualpairprogrammers.domain.Subject"/>
    		
     </session-factory>
 
