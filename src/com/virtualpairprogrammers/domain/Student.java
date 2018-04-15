@@ -1,5 +1,6 @@
 package com.virtualpairprogrammers.domain;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,7 +8,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 /**
  * Represents a Student enrolled in the college management
@@ -26,7 +26,7 @@ public class Student
     private String name;
     
     // Relationship I used class tutor as class name
-    @ManyToOne
+    @ManyToOne(cascade=CascadeType.PERSIST)
     @JoinColumn(name="TUTOR_FK")
     private Tutor supervisor;
     

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -33,7 +34,7 @@ public class Tutor {
 	private int salary;
 	
 	// Notation mappedBy means = Already mapped by property supervisor (in class Student) 
-	@OneToMany(mappedBy="supervisor")
+	@OneToMany(mappedBy="supervisor", cascade=CascadeType.PERSIST)
 	//@MapKey(name="enrollmentID")
 	//@OrderBy("name")
 	//@OrderColumn(name = "student_order")
@@ -115,6 +116,11 @@ public class Tutor {
 		} else if (!staffId.equals(other.staffId))
 			return false;
 		return true;
+	}
+
+	public void createAndAddToSupervsionGroup(String studentName, String enrollmentId) {
+		Student student = new Student(studentName, enrollmentId);
+		this.addStudentToSupervisionGroup(student);
 	}
 	
 	
