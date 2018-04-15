@@ -1,68 +1,62 @@
 package com.virtualpairprogrammers.test;
 
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.service.ServiceRegistry;
-import org.hibernate.service.ServiceRegistryBuilder;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
 
 import com.virtualpairprogrammers.domain.Student;
-import com.virtualpairprogrammers.domain.Subject;
 import com.virtualpairprogrammers.domain.Tutor;
 
 public class HibernateTestHarness 
 {
-	private static SessionFactory sessionFactory = null;
 
 	public static void main(String[] args)
 	{	
-		SessionFactory sf = getSessionFactory();
-		Session session = sf.openSession();
-		Transaction tx = session.beginTransaction();
 		
-		Tutor t1 = new Tutor("ABC123", "Laura Bennett", 3247474);
-		session.save(t1);
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("myDatabaseConfig");
 		
-		Student s1 = new Student("Ryan Bailey", "1-BAI-2011");
-	    t1.addStudentToSupervisionGroup(s1);
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
 		
-		Student s2 = new Student("Luke Adams", "2-ADA-2009");
-	    t1.addStudentToSupervisionGroup(s2);
+//		Tutor t1 = new Tutor("ABC123", "Laura Bennett", 3247474);
+//		em.persist(t1);
+//		
+//		Student s1 = new Student("Ryan Bailey", "1-BAI-2011");
+//	    t1.addStudentToSupervisionGroup(s1);
+//		
+//		Student s2 = new Student("Luke Adams", "2-ADA-2009");
+//	    t1.addStudentToSupervisionGroup(s2);
+//		
+//		Student s3 = new Student("Angie Bainbridge", "3-BAI-2008");
+//		t1.addStudentToSupervisionGroup(s3);
+//			
+//		em.persist(s1);
+//		em.persist(s2);
+//		em.persist(s3);
+//		
+//		Set<Student> allStudents  = t1.getSuperVisionGroup();
+//		
+//		System.out.println(allStudents);
 		
-		Student s3 = new Student("Angie Bainbridge", "3-BAI-2008");
-		t1.addStudentToSupervisionGroup(s3);
-			
-		session.save(s1);
-		session.save(s2);
-		session.save(s3);	
+		Tutor myTutor = em.find(Tutor.class, 1);
+		System.out.println(myTutor);
 		
-		Set<Student> allStudents  = t1.getSuperVisionGroup();
+		Set<Student> students = myTutor.getSuperVisionGroup();
+		for (Student next: students) {
+			System.out.println(next);
+		}
 		
-		System.out.println(allStudents);
-	
+		Student student = em.find(Student.class, 2);
+		System.out.println(student);
+		
+		em.remove(student);
+		
 		tx.commit();
-		session.close();
+		em.close();
 		
 	}
-
-	public static SessionFactory getSessionFactory()
-	{
-		if (sessionFactory == null)
-		{
-			Configuration configuration = new Configuration();
-			configuration.configure();
-			
-			ServiceRegistry serviceRegistry = new 
-					ServiceRegistryBuilder().applySettings(configuration.getProperties())
-					.buildServiceRegistry();        
-
-			sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-		}
-		return sessionFactory;
-	}			
 }
